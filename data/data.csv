@@ -1,0 +1,6 @@
+id,name,description,type,catalogId,createDate,modifiedDate,expirationDate,actice
+product-1,product 1,desciption of product 1,simple,40942,2022-07-19T02:22:08.474Z,2022-07-19T02:22:08.474Z,2023-07-19T02:22:08.474Z,true
+product-2,product 2,desciption of product 2,grouped,40942,2022-07-19T02:22:08.474Z,2022-07-19T02:22:08.474Z,2023-07-19T02:22:08.474Z,false
+product-3,product 3,desciption of product 3,grouped,40942,2022-07-19T02:22:08.474Z,2022-07-19T02:22:08.474Z,2023-07-19T02:22:08.474Z,true
+product-4,product 4,desciption of product 4,simple,40942,2022-07-19T02:22:08.474Z,2022-07-19T02:22:08.474Z,2023-07-19T02:22:08.474Z,true
+product-5,product 5,desciption of product 5,simple,40942,2022-07-19T02:22:08.474Z,2022-07-19T02:22:08.474Z,2023-07-19T02:22:08.474Z,false
