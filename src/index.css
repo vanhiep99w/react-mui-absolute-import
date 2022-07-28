@@ -1,12 +1,9 @@
 * {
-   box-sizing: border-box;
-   margin: 0;
-   padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-   font-family: "Roboto", sans-serif;
-   --color-1: #c8dadf;
-   --color-2: #92b0b3;
-   --color-3: #39bfd3;
+  font-family: "Roboto", sans-serif;
 }
