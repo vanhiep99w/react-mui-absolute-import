@@ -1,13 +1,13 @@
 import { TableBody, TableHead, TableRow } from "@mui/material";
-import { useContext } from "react";
 import { v4 } from "uuid";
-import { PRODUCT_FIELD_MAPPINGS } from "../../constants";
-import { DataMappingContext } from "../../context";
+import { PRODUCT_FIELD_MAPPINGS } from "../../constants/constants";
+import { filterUnselectedOptions } from "../../helpers/producHelper";
 import TableBodyRow from "./TableBodyRow";
 import { Container, Table, TableCell } from "./TableMapping.style";
+import { useDataContext } from "../../hoc";
 
 export default function TableMapping() {
-  const { data, setData } = useContext(DataMappingContext);
+  const { data, setData } = useDataContext();
 
   const onUpdateMapping = (fileIndex, field, fieldMapping) => {
     setData((draftData) => {
@@ -19,12 +19,6 @@ export default function TableMapping() {
       );
     });
   };
-
-  const filterUnselectedOptions = (mapping) =>
-    PRODUCT_FIELD_MAPPINGS.filter(
-      (ele) =>
-        !mapping.some(({ fieldMapping }) => fieldMapping?.key === ele.key)
-    );
 
   return (
     <Container>

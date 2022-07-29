@@ -1,8 +1,9 @@
-import { Button, Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 import PropTypes from "prop-types";
-import CloseIcon from "@mui/icons-material/Close";
+import { FILE_MAPPING_PROP } from "../../../constants/propTypeConstants";
+import FileItem from "./FileItem";
 
-export default function ListFile({ files = [], onFileRemove = () => {} }) {
+export default function ListFile({ files, onFileRemove }) {
   if (files.length === 0) {
     return null;
   }
@@ -13,44 +14,14 @@ export default function ListFile({ files = [], onFileRemove = () => {} }) {
       }}
     >
       {files.map(({ file, id }) => (
-        <Stack
-          key={id}
-          direction="row"
-          gap={1}
-          sx={{
-            backgroundColor: "white",
-            borderRadius: 1,
-            p: (theme) => theme.spacing(0.5, 1),
-            maxWidth: 200
-          }}
-          justifyContent="space-between"
-        >
-          <Typography fontSize={15}>{file.name}</Typography>
-          <Button sx={{ p: 0, minWidth: 0 }} onClick={() => onFileRemove(file)}>
-            <CloseIcon />
-          </Button>
-        </Stack>
+        <FileItem file={file} key={id} onFileRemove={onFileRemove} />
       ))}
     </Stack>
   );
 }
 
 ListFile.propTypes = {
-  files: PropTypes.arrayOf(
-    PropTypes.shape({
-      file: PropTypes.instanceOf(File).isRequired,
-      id: PropTypes.string.isRequired,
-      mapping: PropTypes.arrayOf(
-        PropTypes.shape({
-          fieldName: PropTypes.string.isRequired,
-          fieldMapping: PropTypes.shape({
-            key: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired
-          })
-        })
-      ).isRequired
-    })
-  ),
+  files: PropTypes.arrayOf(PropTypes.shape(FILE_MAPPING_PROP)),
   onFileRemove: PropTypes.func
 };
 

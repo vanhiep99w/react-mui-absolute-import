@@ -16,5 +16,12 @@ export const PRODUCT_FIELD_MAPPINGS = [
   { name: "Is Active", key: "active" }
 ];
 
-export const IMPORT_PRODUCT_URL =
-  "/o/headless-commerce-admin-catalog/v1.0/products/batch";
+export const PROMISE_STATUS = {
+  PENDING: "pending",
+  FULFILLED: "fulfilled",
+  REJECTED: "rejected"
+};
+
+export const SERVICE_PATH = {
+  importProductURL: "/o/headless-commerce-admin-catalog/v1.0/products/batch"
+};

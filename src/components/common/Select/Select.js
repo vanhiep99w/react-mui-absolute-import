@@ -28,7 +28,7 @@ export default function Select({
 
 Select.propTypes = {
   children: PropType.node,
-  id: PropType.string.isRequired,
+  id: PropType.string,
   value: PropType.string,
   onChange: PropType.func.isRequired,
   options: PropType.instanceOf(Array),
@@ -39,5 +39,6 @@ Select.defaultProps = {
   children: null,
   value: null,
   options: [],
-  label: ""
+  label: "",
+  id: ""
 };

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { TableRow } from "@mui/material";
-import { Select } from "../common";
 import { TableCell } from "./TableMapping.style";
+import { Select } from "../common";
 
 export default function TableBodyRow({
   fieldName,

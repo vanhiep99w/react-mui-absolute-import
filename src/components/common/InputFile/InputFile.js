@@ -2,15 +2,13 @@ import { Stack, Typography } from "@mui/material";
 import { forwardRef } from "react";
 import PropTypes from "prop-types";
 import { Container, Input, Button, DownloadIcon } from "./InputFile.style";
-import { CSV_FILE_MINE_TYPE } from "../../../constants";
+import { CSV_FILE_MINE_TYPE } from "../../../constants/constants";
 
 const InputFile = forwardRef(
-  ({ isDragging, setDragging, onChange, error }, inputRef) => {
+  ({ isDragging, setDragging, onChange }, inputRef) => {
     const onDragEnter = () => setDragging(true);
     const onDragLeave = () => setDragging(false);
     const onDrop = () => setDragging(false);
-    const noticeColor = error ? "error.dark" : "";
-    const noticeText = error || "Choose a CSV file or Drag it here";
 
     return (
       <Container
@@ -27,8 +25,8 @@ const InputFile = forwardRef(
           gap={2}
         >
           <DownloadIcon color="info" />
-          <Typography variant="subtitle2" color={noticeColor}>
-            {noticeText}
+          <Typography variant="subtitle2">
+            Choose a CSV file or Drag it here
           </Typography>
           <Button
             sx={{
@@ -56,10 +54,5 @@ export default InputFile;
 InputFile.propTypes = {
   isDragging: PropTypes.bool.isRequired,
   setDragging: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  error: PropTypes.string
-};
-
-InputFile.defaultProps = {
-  error: ""
+  onChange: PropTypes.func.isRequired
 };
