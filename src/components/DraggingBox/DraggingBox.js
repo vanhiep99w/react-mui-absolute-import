@@ -1,19 +1,15 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import format from "string-template";
-import { PARSE_FILE_ERROR } from "../../constants/messageConstants";
-import {
-  getFileNames,
-  getValidFile,
-  parseFiles
-} from "../../helpers/fileHelper";
+import { getFileNames, getValidFiles, parseFiles } from "helpers/fileHelpers";
+import { PARSE_FILE_ERROR } from "constants/messageConstants";
+import { PROMISE_STATUS } from "constants/constants";
+import { InputFile, ListFile } from "components/common";
+import { DataMappingContext } from "context";
 import { Container } from "./DraggingBox.style";
-import { InputFile, ListFile } from "../common";
-import { PROMISE_STATUS } from "../../constants/constants";
-import { useDataContext } from "../../hoc";
 
-export default function DraggingFileBox() {
+export default function DraggingBox() {
   const [isDragging, setDragging] = useState(false);
-  const { data, setData, error, setError } = useDataContext();
+  const { data, setData, error, setError } = useContext(DataMappingContext);
   const inputFileRef = useRef();
   const containerStyle = {
     backgroundColor: isDragging ? "common.white" : "app.main"
@@ -32,15 +28,18 @@ export default function DraggingFileBox() {
   const onInputChange = async (event) => {
     const currentFiles = data.map((ele) => ele.file);
     const uploadFiles = [...event.target.files];
-    const validFiles = getValidFile(uploadFiles, currentFiles);
-    const res = await parseFiles(validFiles);
+    const validFiles = getValidFiles(uploadFiles, currentFiles);
+    const {
+      [PROMISE_STATUS.FULFILLED]: successfulFiles = [],
+      [PROMISE_STATUS.REJECTED]: failedFiles = []
+    } = await parseFiles(validFiles);
+    const errorMessage = failedFiles.length
+      ? format(PARSE_FILE_ERROR, [getFileNames(failedFiles)])
+      : "";
     setData((currentData) => {
-      currentData.push(...res[PROMISE_STATUS.FULFILLED]);
+      currentData.push(...successfulFiles);
     });
-    const failedFiles = res[PROMISE_STATUS.REJECTED];
-    if (failedFiles.length > 0) {
-      setErrorMessage(format(PARSE_FILE_ERROR, [getFileNames(failedFiles)]));
-    }
+    setErrorMessage(errorMessage);
   };
 
   return (
@@ -50,7 +49,6 @@ export default function DraggingFileBox() {
         setDragging={setDragging}
         onChange={onInputChange}
         ref={inputFileRef}
-        error={error}
       />
       <ListFile files={data} onFileRemove={onFileRemove} />
     </Container>

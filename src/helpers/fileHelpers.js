@@ -1,16 +1,16 @@
 import Papa from "papaparse";
 import format from "string-template";
 import { v4 } from "uuid";
-import { CSV_FILE_MINE_TYPE, PROMISE_STATUS } from "../constants/constants";
-import { COULD_NOT_PARSE_HEADER } from "../constants/messageConstants";
+import { COULD_NOT_PARSE_HEADER } from "constants/messageConstants";
+import { CSV_FILE_MINE_TYPE, PROMISE_STATUS } from "constants/constants";
 
 export const parseFile = (file, config = {}) => {
   return new Promise((resolve, reject) => {
     Papa.parse(file, {
       complete: ({ data: lines }) => {
         if (lines && lines[0]) {
-          const mapping = lines[0].map((fieldName) => ({ fieldName }));
-          resolve({ file, id: file.id, mapping, data: lines.slice(1) });
+          const mappings = lines[0].map((headerField) => ({ headerField }));
+          resolve({ file, id: file.id, mappings, data: lines.slice(1) });
         } else {
           reject(new Error(format(COULD_NOT_PARSE_HEADER, [file.name])));
         }
@@ -23,7 +23,7 @@ export const parseFile = (file, config = {}) => {
 
 export const parseFiles = async (files, config) => {
   const res = await Promise.allSettled(
-    files.map((file) => parseFile(file, config))
+    files?.map((file) => parseFile(file, config)) || []
   );
 
   return res.reduce(
@@ -43,25 +43,27 @@ export const parseFiles = async (files, config) => {
   );
 };
 
-export const isExistFile = (file, currentFiles) =>
-  currentFiles.some((ele) => {
-    return ele.name === file.name && ele.lastModified === file.lastModified;
+export const isExistFile = (file, currentFiles = []) =>
+  currentFiles?.some((ele) => {
+    return ele?.name === file?.name && ele?.lastModified === file?.lastModified;
   });
 
 export const addIdForFile = (file) => {
+  if (!file) return null;
   file.id = v4();
   return file;
 };
 
 export const isCSVFile = (file) => {
-  return file.type === CSV_FILE_MINE_TYPE;
+  return file?.type === CSV_FILE_MINE_TYPE;
 };
 
-export const getValidFile = (files, currentFiles) =>
+export const getValidFiles = (files, currentFiles = []) =>
   files
-    .filter((file) => isCSVFile(file) && !isExistFile(file, currentFiles))
-    .map((file) => addIdForFile(file));
+    ?.filter((file) => isCSVFile(file) && !isExistFile(file, currentFiles))
+    .map((file) => addIdForFile(file))
+    .filter(Boolean);
 
 export const getFileNames = (files) => {
-  return files.map((file) => file.name).join(", ");
+  return files?.map((file) => file?.name).join(", ");
 };

@@ -3,7 +3,6 @@ import { InputLabel, MenuItem } from "@mui/material";
 import { FormControlStyled, SelectStyled } from "./Select.style";
 
 export default function Select({
-  children,
   id,
   value,
   onChange,
@@ -11,6 +10,9 @@ export default function Select({
   label,
   ...restProps
 }) {
+  if (!options?.length) {
+    return null;
+  }
   return (
     <FormControlStyled {...restProps} variant="outlined">
       {label && <InputLabel id={id}>{label}</InputLabel>}
@@ -27,7 +29,6 @@ export default function Select({
 }
 
 Select.propTypes = {
-  children: PropType.node,
   id: PropType.string,
   value: PropType.string,
   onChange: PropType.func.isRequired,
@@ -36,7 +37,6 @@ Select.propTypes = {
 };
 
 Select.defaultProps = {
-  children: null,
   value: null,
   options: [],
   label: "",

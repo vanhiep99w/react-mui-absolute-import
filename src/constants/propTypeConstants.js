@@ -1,15 +1,15 @@
 import PropTypes from "prop-types";
 
-export const FILE_MAPPING_PROP = {
+export const MAPPING_PROPS = PropTypes.shape({
+  headerField: PropTypes.string.isRequired,
+  productField: PropTypes.shape({
+    key: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  })
+});
+
+export const FILE_MAPPING_PROPS = PropTypes.shape({
   file: PropTypes.instanceOf(File).isRequired,
   id: PropTypes.string.isRequired,
-  mapping: PropTypes.arrayOf(
-    PropTypes.shape({
-      fieldName: PropTypes.string.isRequired,
-      fieldMapping: PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-      })
-    })
-  ).isRequired
-};
+  mappings: PropTypes.arrayOf(MAPPING_PROPS).isRequired
+});

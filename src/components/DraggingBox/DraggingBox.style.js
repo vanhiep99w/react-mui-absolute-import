@@ -6,7 +6,7 @@ export const Container = styled(Box)({
   margin: "0 auto",
   display: "flex",
   direction: "row",
-  alignItems: "strech",
+  alignItems: "stretch",
   gap: 10,
   justifyContent: "center",
   borderRadius: 5,

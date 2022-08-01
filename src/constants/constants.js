@@ -25,3 +25,5 @@ export const PROMISE_STATUS = {
 export const SERVICE_PATH = {
   importProductURL: "/o/headless-commerce-admin-catalog/v1.0/products/batch"
 };
+
+export const ERROR_DURATION = 5000;

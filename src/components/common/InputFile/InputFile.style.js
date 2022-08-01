@@ -21,7 +21,7 @@ export const Input = styled("input")({
 
 export const Button = styled(ButtonMUI)(({ theme }) => ({
   color: "white",
-  p: "7px 10 px",
+  padding: "7px 10px",
   backgroundColor: theme.palette.app.light,
   "&:hover": { backgroundColor: theme.palette.app.dark }
 }));

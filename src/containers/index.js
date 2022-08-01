@@ -1,1 +1,1 @@
-export { default as ImportProducts } from "./ImportProducts";
+export { default as ImportProducts } from "containers/ImportProduct/ImportProducts";

@@ -1,27 +1,44 @@
 import PropTypes from "prop-types";
 import { TableRow } from "@mui/material";
+import { Select } from "components/common";
+import { MAPPING_PROPS } from "constants/propTypeConstants";
+import {
+  getFileMappingByFieldName,
+  getProductMappingByKey
+} from "helpers/productHelpers";
+import { useContext } from "react";
+import { DataMappingContext } from "context";
 import { TableCell } from "./TableMapping.style";
-import { Select } from "../common";
 
-export default function TableBodyRow({
-  fieldName,
-  fieldMapping,
-  productMappingFields,
-  onUpdateMapping
-}) {
-  const value = fieldMapping ? fieldMapping.key : "";
-  const options = fieldMapping
-    ? [fieldMapping, ...productMappingFields]
-    : productMappingFields;
+export default function TableBodyRow({ mapping, mappingOptions, fileId }) {
+  const { setData } = useContext(DataMappingContext);
+  const { productField, headerField } = mapping;
+  const productFieldKey = productField ? productField.key : "";
+  const options = productField
+    ? [productField, ...mappingOptions]
+    : mappingOptions;
+
+  const onSelectChange = (event) => {
+    const { value } = event.target;
+    const prdField = getProductMappingByKey(value);
+    setData((dataFiles) => {
+      const fileMapping = getFileMappingByFieldName(
+        fileId,
+        dataFiles,
+        headerField
+      );
+      fileMapping.productField = prdField;
+    });
+  };
 
   return (
     <TableRow>
-      <TableCell>{fieldName}</TableCell>
+      <TableCell>{headerField}</TableCell>
       <TableCell>
         <Select
           options={options}
-          onChange={(event) => onUpdateMapping(event.target.value)}
-          value={value}
+          onChange={onSelectChange}
+          value={productFieldKey}
           fullWidth
           size="small"
         />
@@ -31,14 +48,11 @@ export default function TableBodyRow({
 }
 
 TableBodyRow.propTypes = {
-  fieldName: PropTypes.string.isRequired,
-  fieldMapping: PropTypes.shape(),
-  productMappingFields: PropTypes.instanceOf(Array),
-  onUpdateMapping: PropTypes.func
+  mapping: MAPPING_PROPS.isRequired,
+  mappingOptions: PropTypes.instanceOf(Array),
+  fileId: PropTypes.string.isRequired
 };
 
 TableBodyRow.defaultProps = {
-  fieldMapping: null,
-  productMappingFields: [],
-  onUpdateMapping: () => {}
+  mappingOptions: []
 };
